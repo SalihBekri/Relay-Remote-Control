@@ -1,0 +1,57 @@
+#include <main.h>
+#use fast_io(b)
+
+#define LCD_ENABLE_PIN  PIN_B2
+#define LCD_RS_PIN      PIN_B0
+#define LCD_RW_PIN      PIN_B1
+#define LCD_DATA4       PIN_B4
+#define LCD_DATA5       PIN_B5
+#define LCD_DATA6       PIN_B6
+#define LCD_DATA7       PIN_B7
+#include <lcd.c>
+
+
+#use rs232 (baud = 9600, xmit=pin_C6, rcv=pin_C7, parity=N, stop = 1)
+char klavye[80];
+
+#int_rda
+void serihaberlesme_kesmesi(){
+
+   disable_interrupts(int_rda);
+   output_high(pin_c5);
+   gets(klavye);
+   printf("\n\rYazdiginiz Metin> %s\n",klavye);
+   printf(lcd_putc,"\f%s",klavye);
+   output_low(pin_c5);
+   printf("\n\rKlavyeden bir metin giriniz ve enter tusuna basiniz>");
+
+}
+
+
+void setup();
+
+void main()
+{  
+      
+   setup();
+   
+   printf("\r************************ Merhaba ************************");
+   printf("\n\rKlavyeden   girdiginiz  bilgiler    LCD'de      gorunecektir\n\n");
+   printf("\n\rKlavyeden bir metin giriniz ve enter tusuna basiniz>");
+   
+   while(TRUE)
+   {  
+      
+      enable_interrupts(int_rda);    
+   }
+
+}
+
+void setup(){
+     
+   set_tris_b(0x00);
+   output_low(pin_c5);
+   lcd_init();
+   enable_interrupts(GLOBAL);
+}
+

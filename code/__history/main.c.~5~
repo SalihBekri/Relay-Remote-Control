@@ -1,0 +1,64 @@
+#include <main.h>
+#use fast_io(b)
+
+#define LCD_ENABLE_PIN  PIN_B2
+#define LCD_RS_PIN      PIN_B0
+#define LCD_RW_PIN      PIN_B1
+#define LCD_DATA4       PIN_B4
+#define LCD_DATA5       PIN_B5
+#define LCD_DATA6       PIN_B6
+#define LCD_DATA7       PIN_B7
+
+
+
+#include <lcd.c>
+
+
+
+
+int x;
+float y;
+char z;
+
+
+void setup();
+
+void main()
+{  
+   x = 10;
+   y = 32.5;
+   
+   setup();
+   while(TRUE)
+   {
+      lcd_send_byte(0,0x0d);
+      printf(lcd_putc,"\f  CCS C");
+      delay_ms(1000);
+      printf(lcd_putc,"\n  Derleyecisi");
+      
+      delay_ms(1000);
+      lcd_gotoxy(1,2);
+      printf(lcd_putc,"\fX DEGERI=%d",x);
+      
+      delay_ms(1000);
+      printf(lcd_putc,"\f\nY DEGERI=%f",y);
+      
+      delay_ms(1000);
+      printf(lcd_putc,"\fDIRENC");
+      
+      delay_ms(1000);
+      z = lcd_getc(3,1);
+      
+      printf(lcd_putc,"\f%c",z);
+      delay_ms(2000);
+      
+   }
+
+}
+
+void setup(){
+
+     set_tris_b(0x00);
+     lcd_init();
+
+}
